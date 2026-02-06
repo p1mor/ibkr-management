@@ -366,6 +366,19 @@ Este ejemplo te muestra:
 - Validar un contrato
 - Recibir tus primeros ticks
 
+### Visualización Interactiva (Dashboard)
+
+En otra terminal (mientras `basic_connection.py` está corriendo):
+
+```bash
+streamlit run examples/live_dashboard.py
+```
+
+El dashboard lee `ib_gateway_audit.log` y muestra:
+- Ticks totales, último precio, último tamaño y spread
+- Gráficas de precio/cantidad
+- Eventos recientes del log (incluyendo warnings/errores)
+
 ### Ejemplo 2: Pipeline Completo
 
 ```bash
