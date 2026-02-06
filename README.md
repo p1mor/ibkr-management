@@ -1,6 +1,6 @@
-# 📊 Sistema de Captura de Datos de Alta Frecuencia - Interactive Brokers
+# IBKR Ultra-High Frequency Data Acquisition System
 
-## 📚 Índice
+## Índice
 - [Introducción](#introducción)
 - [Arquitectura del Sistema](#arquitectura-del-sistema)
 - [Instalación y Configuración](#instalación-y-configuración)
@@ -13,7 +13,7 @@
 
 ---
 
-## 🎯 Introducción
+## Introducción
 
 Este sistema captura datos de **ultra-alta frecuencia** (tick-by-tick y order book completo) desde Interactive Brokers (IBKR) para instrumentos futuros, específicamente diseñado para el **E-mini S&P 500 (ES)** del CME.
 
@@ -30,7 +30,7 @@ Este sistema captura datos de **ultra-alta frecuencia** (tick-by-tick y order bo
 
 ---
 
-## 🏗 Arquitectura del Sistema
+## Arquitectura del Sistema
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -74,7 +74,7 @@ Este sistema captura datos de **ultra-alta frecuencia** (tick-by-tick y order bo
 
 ---
 
-## 🚀 Instalación y Configuración
+## Instalación y Configuración
 
 ### Paso 1: Requisitos Previos
 
@@ -120,7 +120,7 @@ Este sistema captura datos de **ultra-alta frecuencia** (tick-by-tick y order bo
 
 ### Paso 3: Configurar IB Gateway para Conexiones API
 
-**⚠️ CRÍTICO: Configurar API Settings**
+**CRÍTICO: Configurar API Settings**
 
 1. Dentro de IB Gateway, ir a: **File → Global Configuration → API → Settings**
 
@@ -167,7 +167,7 @@ LOG_LEVEL=INFO
 
 ---
 
-## 🔌 Conexión con IB Gateway
+## Conexión con IB Gateway
 
 ### Proceso de Conexión Paso a Paso
 
@@ -210,7 +210,7 @@ Usuario → IB Gateway → IBKR Servers → Autenticación
 
 ---
 
-## 📈 Pipeline de Procesamiento de Datos
+## Pipeline de Procesamiento de Datos
 
 ### Fase 1: Captura de Eventos
 
@@ -313,7 +313,7 @@ Ejemplo: `es_cme_trades_20260206.parquet`
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 ibkr_management/
@@ -353,7 +353,7 @@ ibkr_management/
 
 ---
 
-## 🎓 Guía de Uso
+## Guía de Uso
 
 ### Ejemplo 1: Conexión Básica
 
@@ -408,9 +408,9 @@ print(volume_per_minute)
 
 ---
 
-## 🔄 Mantenimiento Semanal
+## Mantenimiento Semanal
 
-### ⚠️ Reinicio de Credenciales (Domingos)
+### Reinicio de Credenciales (Domingos)
 
 **¿Por qué los domingos?**
 - Interactive Brokers realiza mantenimiento programado
@@ -477,7 +477,7 @@ IBKR_CONTRACT_MONTH=202603
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Problema 1: No conecta a IB Gateway
 
@@ -544,7 +544,7 @@ IBKR_CONTRACT_MONTH=202603
 
 ---
 
-## 📊 Métricas de Calidad
+## Métricas de Calidad
 
 ### Latencia Típica
 - **IBKR Server → Local**: 5-15ms (depende de ubicación)
@@ -562,7 +562,7 @@ IBKR_CONTRACT_MONTH=202603
 
 ---
 
-## 🎯 Próximos Pasos
+## Próximos Pasos
 
 1. **Ejecutar `basic_connection.py`** y ver tus primeros datos
 2. **Analizar un día de datos** con Pandas
@@ -572,7 +572,7 @@ IBKR_CONTRACT_MONTH=202603
 
 ---
 
-## 📞 Soporte
+## Soporte
 
 **Documentación oficial**:
 - IBKR TWS API: https://interactivebrokers.github.io/tws-api/
@@ -584,10 +584,10 @@ IBKR_CONTRACT_MONTH=202603
 
 ---
 
-## ⚖️ Disclaimer
+## Disclaimer
 
 Este sistema es para fines educativos y de investigación. El trading de futuros conlleva riesgo sustancial de pérdida. No somos responsables de pérdidas financieras derivadas del uso de este software.
 
 ---
 
-**¡Éxito en tu aprendizaje! 🚀**
+**¡Éxito en tu aprendizaje! **
