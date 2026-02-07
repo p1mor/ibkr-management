@@ -610,6 +610,10 @@ IBKR_CONTRACT_MONTH=202603
   - Explica cómo conectarse a TWS/IB Gateway, componentes (DataClient/ExecutionClient/InstrumentProvider) y ejemplos.
 - Repositorio (código fuente): https://github.com/axelsnoski/NautilusTrader
 
+**Guía reusable de infraestructura agentic**:
+- Playbook base para replicar esta infraestructura en otros repos:
+  - `docs/playbooks/agentic-repo-bootstrap.md`
+
 **Logs**:
 - `ib_gateway_audit.log`: Log principal del sistema
 - IB Gateway logs: `~/Jts/` (MacOS/Linux) o `C:\Jts\` (Windows)
