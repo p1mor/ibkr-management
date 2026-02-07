@@ -591,6 +591,13 @@ IBKR_CONTRACT_MONTH=202603
 - IBKR TWS API: https://interactivebrokers.github.io/tws-api/
 - ibapi Python: https://github.com/InteractiveBrokers/tws-api-public
 
+**Recursos para profundizar (trading algorítmico)**:
+- NautilusTrader (conceptos/overview): https://nautilustrader.io/docs/latest/concepts/overview/
+  - Plataforma de trading algorítmico y backtesting event-driven; útil si quieres pasar de “capturar datos” a “modelar, backtestear y ejecutar” estrategias con una arquitectura más completa.
+- NautilusTrader + Interactive Brokers (adapter IBKR): https://nautilustrader.io/docs/latest/integrations/ib/
+  - Explica cómo conectarse a TWS/IB Gateway, componentes (DataClient/ExecutionClient/InstrumentProvider) y ejemplos.
+- Repositorio (código fuente): https://github.com/axelsnoski/NautilusTrader
+
 **Logs**:
 - `ib_gateway_audit.log`: Log principal del sistema
 - IB Gateway logs: `~/Jts/` (MacOS/Linux) o `C:\Jts\` (Windows)
