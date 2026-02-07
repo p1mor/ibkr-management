@@ -82,7 +82,6 @@ ibkr-management/
 ├── AGENTS.md
 ├── README.md
 ├── START_HERE.md
-├── INDEX.md
 ├── .env.example
 ├── config/
 ├── core/
@@ -105,7 +104,6 @@ ibkr-management/
 ## Documentation Map
 - `README.md`: canonical technical documentation (this file).
 - `START_HERE.md`: shortest onboarding path.
-- `INDEX.md`: navigation map by intent.
 - `AGENTS.md`: team rules, commands, and safety boundaries.
 - `docs/architecture/overview.md`: current architecture snapshot.
 - `specs/`: scope and acceptance criteria by feature.
