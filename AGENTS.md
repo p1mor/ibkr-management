@@ -33,14 +33,15 @@ Keep each phase minimal before moving to the next one.
 If docs and code differ, code is the current behavior and docs must be updated.
 
 ## Repository map
-- `config/`: environment settings and contract builders
-- `core/`: connection, orderbook, validation, processing
-- `storage/`: parquet persistence
-- `utils/`: logging and shared helpers
+- `src/ibkr_management/`: canonical library code (`config`, `core`, `storage`, `utils`)
 - `examples/`: runnable demos (`basic_connection.py`, `dashboard_app/app.py`)
 - `scripts/`: operational helpers (`verify_setup.py` implementation + future utilities)
 - `tests/`: smoke and unit checks
 - `specs/`: feature-level implementation specs
+
+Entry-point rule:
+- Runnable scripts belong in `examples/` or `scripts/`.
+- Canonical imports should target `ibkr_management.*` from `src/`.
 
 ## Development rules
 - Keep changes minimal, testable, and reversible.
@@ -59,10 +60,10 @@ If docs and code differ, code is the current behavior and docs must be updated.
 ## Commands
 - Setup env: `python3 -m venv venv && source venv/bin/activate`
 - Install deps: `pip install -r requirements.txt`
-- Verify setup: `python verify_setup.py`
+- Verify setup: `python scripts/verify_setup.py`
 - Run capture example: `python examples/basic_connection.py`
 - Run dashboard: `streamlit run examples/dashboard_app/app.py`
-- Static checks: `python -m compileall config core storage utils examples scripts verify_setup.py`
+- Static checks: `python -m compileall src examples scripts tests`
 - Tests: `python -m unittest discover -s tests -p "test_*.py"`
 
 ## Contribution workflow

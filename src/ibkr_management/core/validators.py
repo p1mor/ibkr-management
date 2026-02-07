@@ -10,7 +10,7 @@ desastrosas. Este sistema valida cada dato antes de almacenarlo.
 
 from typing import Tuple, Dict, Any
 from dataclasses import dataclass
-from utils.logging_config import get_logger
+from ..utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -279,70 +279,3 @@ class DataValidator:
             'v5': bool(flags & (1 << 4)),
             'p1': bool(flags & (1 << 5)),
         }
-
-
-if __name__ == "__main__":
-    # Demo de uso
-    print("\nDEMO: DataValidator\n")
-    
-    validator = DataValidator(max_spread_threshold=0.05, min_depth_levels=1)
-    
-    # Caso 1: Trade válido
-    print("Caso 1: Trade válido")
-    result = validator.validate_trade(
-        price=5875.25,
-        quantity=5,
-        event_time=1738876543210,
-        bids=[(0, {'price': 5875.00, 'size': 25})],
-        asks=[(0, {'price': 5875.25, 'size': 30})]
-    )
-    print(f"  Resultado: {result}")
-    print(f"  Dict: {result.to_dict()}\n")
-    
-    # Caso 2: Precio inválido
-    print("Caso 2: Precio inválido (negativo)")
-    result = validator.validate_trade(
-        price=-100,
-        quantity=5,
-        event_time=1738876543210,
-        bids=[(0, {'price': 5875.00, 'size': 25})],
-        asks=[(0, {'price': 5875.25, 'size': 30})]
-    )
-    print(f"  Resultado: {result}\n")
-    
-    # Caso 3: Spread invertido
-    print("Caso 3: Spread invertido (bid > ask)")
-    result = validator.validate_trade(
-        price=5875.25,
-        quantity=5,
-        event_time=1738876543210,
-        bids=[(0, {'price': 5876.00, 'size': 25})],
-        asks=[(0, {'price': 5875.00, 'size': 30})]
-    )
-    print(f"  Resultado: {result}\n")
-    
-    # Caso 4: Spread excesivo
-    print("Caso 4: Spread excesivo (>5%)")
-    result = validator.validate_trade(
-        price=5875.25,
-        quantity=5,
-        event_time=1738876543210,
-        bids=[(0, {'price': 5000.00, 'size': 25})],
-        asks=[(0, {'price': 6000.00, 'size': 30})]
-    )
-    print(f"  Resultado: {result}\n")
-    
-    # Caso 5: Depth update válido
-    print("Caso 5: Depth update válido")
-    result = validator.validate_depth_update(
-        mid_price=5875.125,
-        bids=[(0, {'price': 5875.00, 'size': 25})],
-        asks=[(0, {'price': 5875.25, 'size': 30})]
-    )
-    print(f"  Resultado: {result}\n")
-    
-    # Parsear flags
-    print("Parsear flags:")
-    flags = 0b111111
-    parsed = DataValidator.parse_flags(flags)
-    print(f"  Flags 0b{flags:06b} = {parsed}")

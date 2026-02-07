@@ -26,7 +26,7 @@ jobs:
 
       - name: Static checks
         run: |
-          python -m compileall config core storage utils examples scripts verify_setup.py
+          python -m compileall src examples scripts tests
 
       - name: Run tests
         run: |

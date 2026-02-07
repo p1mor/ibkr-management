@@ -130,7 +130,6 @@ dmypy.json
 
 # IBKR specific
 ib_gateway_audit.log
-*.log
 data/
 *.parquet
 *.csv

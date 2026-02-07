@@ -29,6 +29,7 @@ In IB Gateway:
 - `File -> Global Configuration -> API -> Settings`
 - Enable: `Enable ActiveX and Socket Clients`
 - Trusted IP includes `127.0.0.1`
+- Keep IB Gateway Desktop open and logged in while running capture/dashboard scripts
 - Socket port (IB Gateway):
   - Paper: `4002`
   - Live: `4001`
@@ -57,10 +58,12 @@ IBKR_CONTRACT_MONTH=202603
 
 ### 5. Validate setup
 ```bash
-python verify_setup.py
+python scripts/verify_setup.py
 ```
 
 ### 6. Run capture + dashboard
+With IB Gateway Desktop still open in the same mode/port:
+
 Terminal 1:
 ```bash
 python examples/basic_connection.py
@@ -73,6 +76,7 @@ streamlit run examples/dashboard_app/app.py
 
 ## Runtime Expectations
 - If connection fails (e.g., wrong port), logs show error `502` and no ticks.
+- If IB Gateway Desktop is closed/logged out, socket sessions drop and scripts stop receiving data.
 - If connection is OK but market is closed (weekends/off-session), there may be no ticks.
 - Dashboard reads `ib_gateway_audit.log` and can show alerts even without ticks.
 
@@ -83,10 +87,12 @@ ibkr-management/
 ├── README.md
 ├── START_HERE.md
 ├── .env.example
-├── config/
-├── core/
-├── storage/
-├── utils/
+├── src/
+│   └── ibkr_management/
+│       ├── config/
+│       ├── core/
+│       ├── storage/
+│       └── utils/
 ├── scripts/
 ├── examples/
 │   ├── basic_connection.py
@@ -101,6 +107,11 @@ ibkr-management/
 │   └── playbooks/agentic-repo-bootstrap.md
 └── specs/
 ```
+
+### Directory Semantics (Phase A)
+- `examples/` and `scripts/` are the only executable entrypoints.
+- Canonical library code lives in `src/ibkr_management/`.
+- Keep business logic in library modules; keep operational flows and demos in entrypoint files.
 
 ## Documentation Map
 - `README.md`: canonical technical documentation (this file).
@@ -130,8 +141,8 @@ ibkr-management/
 
 ## Useful Commands
 ```bash
-python verify_setup.py
-python -m compileall config core storage utils examples scripts verify_setup.py
+python scripts/verify_setup.py
+python -m compileall src examples scripts tests
 python -m unittest discover -s tests -p "test_*.py"
 ```
 

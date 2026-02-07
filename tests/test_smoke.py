@@ -1,7 +1,14 @@
 import unittest
+import sys
+from pathlib import Path
 
-from config import ContractBuilder, Settings
-from core import DataValidator, OrderBook
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from ibkr_management.config import ContractBuilder, Settings
+from ibkr_management.core import DataValidator, OrderBook
 
 
 class SmokeTests(unittest.TestCase):
@@ -40,4 +47,3 @@ class SmokeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

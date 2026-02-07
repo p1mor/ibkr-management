@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
 from typing import Optional
-from config.settings import Settings
+from ..config.settings import Settings
 
 
 def setup_logging(
@@ -42,7 +42,7 @@ def setup_logging(
         >>> logger.error("Error crítico", exc_info=True)
     """
     # Valores por defecto desde configuración
-    log_file = log_file or Settings.LOG_FILE
+    log_file = Path(log_file or Settings.LOG_FILE)
     log_level = log_level or Settings.LOG_LEVEL
     
     # Convertir string a nivel de logging
@@ -89,7 +89,7 @@ def setup_logging(
     logger.info("=" * 70)
     logger.info("Sistema de logging inicializado")
     logger.info(f"Nivel de log: {log_level.upper()}")
-    logger.info(f"Archivo de log: {log_file.absolute()}")
+    logger.info(f"Archivo de log: {log_file.resolve()}")
     logger.info("=" * 70)
     
     return logger
@@ -172,30 +172,3 @@ def create_trade_logger(symbol: str, strategy: Optional[str] = None) -> LoggerAd
         extra['strategy'] = strategy
     
     return LoggerAdapter(base_logger, extra)
-
-
-# Inicializar logging automáticamente al importar
-_root_logger = setup_logging()
-
-
-if __name__ == "__main__":
-    # Demo de uso
-    print("\nDEMO: Sistema de Logging\n")
-    
-    # Logger básico
-    logger = get_logger(__name__)
-    
-    logger.debug("Mensaje de debugging (puede no aparecer según nivel)")
-    logger.info("Información general del sistema")
-    logger.warning("Advertencia: Posible problema")
-    logger.error("Error recuperable")
-    logger.critical("Error crítico del sistema")
-    
-    # Logger con contexto
-    print("\nLogger con contexto de trading:")
-    trade_logger = create_trade_logger('ES', 'EMA-OBI')
-    trade_logger.info("Conectado a IB Gateway")
-    trade_logger.warning("Spread elevado detectado: 15 bps")
-    trade_logger.info("Trade ejecutado: LONG 2 contratos @ 5875.25")
-    
-    print(f"\nLogs guardados en: {Settings.LOG_FILE.absolute()}")

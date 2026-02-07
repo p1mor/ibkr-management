@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """Installation and configuration verification for IBKR Management.
 
-Run with either:
-    python verify_setup.py
-or:
+Run with:
     python scripts/verify_setup.py
 """
 
@@ -13,8 +11,11 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = PROJECT_ROOT / "src"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
 
 
 def check_python_version() -> bool:
@@ -79,7 +80,7 @@ def check_configuration() -> bool:
         print("    Recomendación: cp .env.example .env")
 
     try:
-        from config import Settings
+        from ibkr_management.config import Settings
 
         is_valid, errors = Settings.validate_config()
         if not is_valid:
@@ -111,7 +112,7 @@ def check_directories() -> bool:
     print("\nVerificando directorios...")
 
     try:
-        from config import Settings
+        from ibkr_management.config import Settings
 
         if Settings.DATA_OUTPUT_DIR.exists():
             print(f"  ✓ Directorio de datos existe: {Settings.DATA_OUTPUT_DIR}")
@@ -132,10 +133,10 @@ def check_modules() -> bool:
     print("\nVerificando módulos del proyecto...")
 
     modules = [
-        ("config", ["Settings", "ContractBuilder"]),
-        ("core", ["OrderBook", "DataValidator"]),
-        ("storage", ["ParquetWriter"]),
-        ("utils", ["setup_logging", "get_logger"]),
+        ("ibkr_management.config", ["Settings", "ContractBuilder"]),
+        ("ibkr_management.core", ["OrderBook", "DataValidator"]),
+        ("ibkr_management.storage", ["ParquetWriter"]),
+        ("ibkr_management.utils", ["setup_logging", "get_logger"]),
     ]
 
     all_ok = True

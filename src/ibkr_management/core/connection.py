@@ -10,7 +10,7 @@ persistente. Este módulo abstrae esa complejidad.
 
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
-from utils.logging_config import get_logger
+from ..utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -45,8 +45,3 @@ class IBKRConnection(EWrapper, EClient):
             super().disconnect()
             self.connected = False
             logger.info("Desconectado")
-
-if __name__ == "__main__":
-    # Demo básico
-    conn = IBKRConnection()
-    print("IBKRConnection creado (demo)")

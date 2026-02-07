@@ -11,14 +11,14 @@ rápidas y compresión eficiente - ideal para datos financieros.
 import threading
 import time
 from pathlib import Path
-from typing import List, Dict, Any, Optional
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from config.settings import Settings
-from utils.logging_config import get_logger
+from ..config.settings import Settings
+from ..utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -68,6 +68,7 @@ class ParquetWriter:
     
     def __init__(
         self,
+        symbol: Optional[str] = None,
         output_dir: Optional[Path] = None,
         flush_interval: Optional[int] = None,
         max_buffer_size: Optional[int] = None,
@@ -77,14 +78,22 @@ class ParquetWriter:
         Inicializa el escritor de Parquet.
         
         Args:
+            symbol: Símbolo por defecto para el archivo Parquet (usa Settings si None)
             output_dir: Directorio de salida (usa Settings si None)
             flush_interval: Segundos entre flush automático (usa Settings si None)
             max_buffer_size: Máximo registros antes de flush forzado (usa Settings si None)
             auto_start: Iniciar thread de flush automático
         """
-        self.output_dir = output_dir or Settings.DATA_OUTPUT_DIR
+        self.symbol = symbol or Settings.IBKR_SYMBOL
+        self.output_dir = Path(output_dir) if output_dir is not None else Settings.DATA_OUTPUT_DIR
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         self.flush_interval = flush_interval or Settings.BUFFER_FLUSH_INTERVAL
         self.max_buffer_size = max_buffer_size or Settings.BUFFER_MAX_SIZE
+
+        if self.flush_interval <= 0:
+            raise ValueError("flush_interval debe ser mayor que 0")
+        if self.max_buffer_size <= 0:
+            raise ValueError("max_buffer_size debe ser mayor que 0")
         
         # Buffer thread-safe
         self.buffer: List[Dict[str, Any]] = []
@@ -100,7 +109,8 @@ class ParquetWriter:
         
         logger.info(
             f"ParquetWriter inicializado: "
-            f"dir={self.output_dir}, "
+            f"symbol={self.symbol}, "
+            f"dir={self.output_dir.resolve()}, "
             f"flush_interval={self.flush_interval}s, "
             f"max_buffer={self.max_buffer_size}"
         )
@@ -229,7 +239,7 @@ class ParquetWriter:
             table = pa.Table.from_pandas(df, schema=self.SCHEMA)
             
             # Determinar nombre de archivo
-            symbol = symbol or Settings.IBKR_SYMBOL
+            symbol = symbol or self.symbol
             filename = Settings.get_parquet_filename(symbol)
             filepath = self.output_dir / filename
             
@@ -301,77 +311,10 @@ class ParquetWriter:
     
     def __enter__(self):
         """Context manager entry."""
-        self.start()
+        if not (self.writer_thread and self.writer_thread.is_alive()):
+            self.start()
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager exit."""
         self.stop(flush_remaining=True)
-
-
-if __name__ == "__main__":
-    # Demo de uso
-    import json
-    from config.settings import Settings
-    
-    print("\nDEMO: ParquetWriter\n")
-    
-    # Crear escritor con flush cada 5 segundos
-    writer = ParquetWriter(
-        flush_interval=5,
-        max_buffer_size=100,
-        auto_start=True
-    )
-    
-    print(f"Directorio de salida: {writer.output_dir}\n")
-    
-    # Simular algunos registros
-    print("Agregando registros de prueba...")
-    
-    for i in range(10):
-        record = {
-            'symbol': Settings.IBKR_SYMBOL,
-            'trade_id': i,
-            'atomic_type': 'trade' if i % 2 == 0 else 'depth',
-            'event_time_server_ms': int(time.time() * 1000),
-            'trade_time_ms': int(time.time() * 1000),
-            'received_at_ingest_ns': time.time_ns(),
-            'trade_price': str(5875.0 + i * 0.25),
-            'trade_qty': str(5),
-            'buyer_is_maker': False,
-            'depth_last_update_id': i,
-            'bids_json': json.dumps([{'price': '5875.00', 'qty': '25'}]),
-            'asks_json': json.dumps([{'price': '5875.25', 'qty': '30'}]),
-            'best_bid_price': '5875.00',
-            'best_bid_qty': '25',
-            'best_ask_price': '5875.25',
-            'best_ask_qty': '30',
-            'spread_bps': '4',
-            'depth_sync_quality': 100,
-            'raw_json': '{}',
-            'validation_v1': True,
-            'validation_v2': True,
-            'validation_v3': True,
-            'validation_v4': True,
-            'validation_v5': True,
-            'validation_p1': True,
-            'validation_final': True,
-            'validation_flags': 0b111111,
-        }
-        writer.add_record(record)
-        print(f"  Registro {i+1} agregado. Buffer size: {writer.get_buffer_size()}")
-        time.sleep(0.5)
-    
-    print(f"\nEsperando auto-flush (máx 5 segundos)...")
-    time.sleep(6)
-    
-    print(f"\nEstadísticas finales:")
-    stats = writer.get_stats()
-    for key, value in stats.items():
-        print(f"  {key}: {value}")
-    
-    # Detener
-    writer.stop()
-    
-    print("\n✓ Demo completado")
-    print(f"\nVerificar archivo creado en: {Settings.get_parquet_path()}")

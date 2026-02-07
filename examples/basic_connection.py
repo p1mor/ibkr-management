@@ -5,25 +5,26 @@ Este script demuestra cómo conectarse a Interactive Brokers Gateway,
 validar un contrato y recibir tus primeros ticks de mercado.
 
 EDUCATIVO: Empieza aquí para entender el flujo básico de conexión.
-Este ejemplo es simplificado - no guarda datos, solo imprime a consola.
+Este ejemplo valida contrato, captura ticks/depth y persiste en Parquet.
 """
 
+from pathlib import Path
 import time
 import sys
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
-from ibapi.contract import Contract
 
-# Si ejecutas desde ibkr_management/, importa así:
-sys.path.insert(0, '.')
-from config import Settings, ContractBuilder
-from core import OrderBook
-from storage import ParquetWriter
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-# Si ejecutas desde ibkr_management/examples/, importa así:
-# sys.path.insert(0, '..')
-# from config import Settings, ContractBuilder
-from utils.logging_config import setup_logging, get_logger
+from ibkr_management.config import ContractBuilder, Settings
+from ibkr_management.core import OrderBook
+from ibkr_management.storage import ParquetWriter
+from ibkr_management.utils import get_logger, setup_logging
 
 # Configurar logging
 setup_logging()

@@ -12,7 +12,8 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-python verify_setup.py
+# Keep IB Gateway Desktop open/logged in (Paper uses port 4002)
+python scripts/verify_setup.py
 python examples/basic_connection.py
 ```
 

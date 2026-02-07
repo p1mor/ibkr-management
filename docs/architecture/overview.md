@@ -25,23 +25,26 @@ The repository should evolve incrementally without front-loading heavy infrastru
 ## Runtime flow
 1. IB Gateway/TWS publishes market data.
 2. `examples/basic_connection.py` receives callbacks from `ibapi`.
-3. `core/orderbook.py` maintains in-memory depth state.
-4. `core/validators.py` applies quality checks.
-5. `storage/parquet_writer.py` buffers and flushes records to Parquet.
+3. `src/ibkr_management/core/orderbook.py` maintains in-memory depth state.
+4. `src/ibkr_management/core/validators.py` applies quality checks.
+5. `src/ibkr_management/storage/parquet_writer.py` buffers and flushes records to Parquet.
 6. `examples/dashboard_app/app.py` reads log output for real-time monitoring.
 
 ## Modules
-- `config/`
+- Entry-point convention:
+  - executable flows live in `examples/` and `scripts/`
+  - canonical code lives under `src/ibkr_management/`
+- `src/ibkr_management/config/`
   - `settings.py`: env-driven configuration and helper paths
   - `contracts.py`: IBKR contract construction helpers
-- `core/`
+- `src/ibkr_management/core/`
   - `connection.py`: connection skeleton
   - `orderbook.py`: order book representation and metrics
   - `validators.py`: validation bitmask logic
-  - `data_processor.py`: integration placeholder (in progress)
-- `storage/`
+  - `data_processor.py`: minimal coordinator for orderbook + validation + persistence
+- `src/ibkr_management/storage/`
   - `parquet_writer.py`: thread-safe buffered Parquet persistence
-- `utils/`
+- `src/ibkr_management/utils/`
   - `logging_config.py`: rotating logs and logger helpers
 - `examples/`
   - `basic_connection.py`: runnable ingestion example

@@ -11,8 +11,7 @@ para entender la microestructura del mercado.
 
 import json
 from typing import Dict, List, Tuple, Optional
-from collections import OrderedDict
-from utils.logging_config import get_logger
+from ..utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -286,49 +285,3 @@ class OrderBook:
         lines.append(f"Updates: {self.update_count} | Quality: {self.get_depth_quality_score()}/100")
         
         return "\n".join(lines)
-
-
-if __name__ == "__main__":
-    # Demo de uso
-    print("\nDEMO: OrderBook\n")
-    
-    # Crear order book
-    ob = OrderBook(max_depth=5)
-    
-    # Simular actualizaciones de market depth
-    print("Insertando niveles iniciales...")
-    
-    # Bids
-    ob.update(position=0, operation=0, side=1, price=5875.00, size=25)
-    ob.update(position=1, operation=0, side=1, price=5874.75, size=30)
-    ob.update(position=2, operation=0, side=1, price=5874.50, size=20)
-    
-    # Asks
-    ob.update(position=0, operation=0, side=0, price=5875.25, size=28)
-    ob.update(position=1, operation=0, side=0, price=5875.50, size=35)
-    ob.update(position=2, operation=0, side=0, price=5875.75, size=22)
-    
-    # Mostrar order book
-    print(ob)
-    
-    # Obtener métricas
-    print(f"\nMid Price: {ob.get_mid_price()}")
-    spread_abs, spread_bps = ob.get_spread()
-    print(f"Spread: {spread_abs} puntos ({spread_bps:.2f} bps)")
-    print(f"Healthy: {ob.is_healthy()}")
-    
-    # Actualizar nivel existente
-    print("\nActualizando mejor bid...")
-    ob.update(position=0, operation=1, side=1, price=5875.00, size=50)
-    
-    # Eliminar nivel
-    print("Eliminando mejor ask...")
-    ob.update(position=0, operation=2, side=0, price=0, size=0)
-    
-    print(ob)
-    
-    # JSON export
-    print("\nExport a JSON:")
-    bids_json, asks_json = ob.to_json(max_levels=3)
-    print(f"Bids: {bids_json}")
-    print(f"Asks: {asks_json}")
