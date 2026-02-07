@@ -87,6 +87,7 @@ ibkr-management/
 ├── core/
 ├── storage/
 ├── utils/
+├── scripts/
 ├── examples/
 │   ├── basic_connection.py
 │   └── dashboard_app/
@@ -130,7 +131,7 @@ ibkr-management/
 ## Useful Commands
 ```bash
 python verify_setup.py
-python -m compileall config core storage utils examples verify_setup.py
+python -m compileall config core storage utils examples scripts verify_setup.py
 python -m unittest discover -s tests -p "test_*.py"
 ```
 

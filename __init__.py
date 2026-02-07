@@ -34,9 +34,8 @@ Ejemplos:
         writer.add_record(record_dict)
 
 Documentación:
-    README.md - Documentación completa
-    SETUP_GUIDE.md - Guía de instalación rápida (5 min)
-    INDEX.md - Índice detallado por módulo
+    README.md - Documentación canónica del proyecto
+    START_HERE.md - Onboarding rápido
 
 Author: Quant TechPulse
 Version: 1.0.0

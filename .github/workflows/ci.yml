@@ -26,9 +26,8 @@ jobs:
 
       - name: Static checks
         run: |
-          python -m compileall config core storage utils examples verify_setup.py
+          python -m compileall config core storage utils examples scripts verify_setup.py
 
       - name: Run tests
         run: |
           python -m unittest discover -s tests -p "test_*.py"
-

@@ -38,6 +38,7 @@ If docs and code differ, code is the current behavior and docs must be updated.
 - `storage/`: parquet persistence
 - `utils/`: logging and shared helpers
 - `examples/`: runnable demos (`basic_connection.py`, `dashboard_app/app.py`)
+- `scripts/`: operational helpers (`verify_setup.py` implementation + future utilities)
 - `tests/`: smoke and unit checks
 - `specs/`: feature-level implementation specs
 
@@ -61,7 +62,7 @@ If docs and code differ, code is the current behavior and docs must be updated.
 - Verify setup: `python verify_setup.py`
 - Run capture example: `python examples/basic_connection.py`
 - Run dashboard: `streamlit run examples/dashboard_app/app.py`
-- Static checks: `python -m compileall config core storage utils examples verify_setup.py`
+- Static checks: `python -m compileall config core storage utils examples scripts verify_setup.py`
 - Tests: `python -m unittest discover -s tests -p "test_*.py"`
 
 ## Contribution workflow

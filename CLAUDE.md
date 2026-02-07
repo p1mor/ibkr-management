@@ -13,6 +13,5 @@ Use `AGENTS.md` as the canonical instruction file for this repository.
 - Ask before changing risk assumptions or execution paths.
 
 ## Validation
-- `python -m compileall config core storage utils examples verify_setup.py`
+- `python -m compileall config core storage utils examples scripts verify_setup.py`
 - `python -m unittest discover -s tests -p "test_*.py"`
-
