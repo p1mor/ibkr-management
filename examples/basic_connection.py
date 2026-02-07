@@ -145,6 +145,7 @@ class SimpleIBKRApp(EWrapper, EClient):
             )
             
             logger.info("✓ Subscripción activa - esperando datos...")
+            logger.info("Nota: en fin de semana/fuera de horario puede no haber ticks aunque la conexión esté OK.")
         else:
             logger.error("[ERROR] No se pudo validar el contrato")
             self.disconnect()
@@ -302,7 +303,7 @@ def main():
     # Mostrar configuración
     print(f"\nConexión:")
     print(f"  Host:     {Settings.IBKR_HOST}")
-    print(f"  Puerto:   {Settings.IBKR_PORT}")  # 4001 para paper/simulación, 4002 para live
+    print(f"  Puerto:   {Settings.IBKR_PORT}")  # Paper=4002, Live=4001 (IB Gateway por defecto)
     print(f"  ClientID: {Settings.IBKR_CLIENT_ID}")
     print(f"\nContrato:")
     print(f"  Símbolo:  {Settings.IBKR_SYMBOL}")
@@ -339,7 +340,7 @@ def main():
             logger.error("✗ No se pudo conectar a IB Gateway")
             logger.error("\nVerifica que:")
             logger.error("  1. IB Gateway esté abierto y logueado")
-            logger.error("  2. Puerto correcto (4001 o 4002)")
+            logger.error("  2. Puerto correcto (IB Gateway: 4002 paper, 4001 live)")
             logger.error("  3. API Settings estén habilitados en Gateway")
             return
         

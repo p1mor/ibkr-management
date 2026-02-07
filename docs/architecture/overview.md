@@ -4,6 +4,11 @@
 This repository currently implements a local foundation for market-data ingestion
 from Interactive Brokers (IBKR), with validation, storage, and basic observability.
 
+API scope for current implementation:
+- Active: TWS/IB Gateway Socket API (`ibapi`).
+- Not in current scope: Client Portal API v1 and Trading Web API.
+- Reference: `README.md` section `API Scope (Important)`.
+
 ## Collaboration model
 - Repository owner: Camilo.
 - Primary contributor: Jaime.
@@ -23,7 +28,7 @@ The repository should evolve incrementally without front-loading heavy infrastru
 3. `core/orderbook.py` maintains in-memory depth state.
 4. `core/validators.py` applies quality checks.
 5. `storage/parquet_writer.py` buffers and flushes records to Parquet.
-6. `examples/live_dashboard.py` reads log output for real-time monitoring.
+6. `examples/dashboard_app/app.py` reads log output for real-time monitoring.
 
 ## Modules
 - `config/`
@@ -40,7 +45,7 @@ The repository should evolve incrementally without front-loading heavy infrastru
   - `logging_config.py`: rotating logs and logger helpers
 - `examples/`
   - `basic_connection.py`: runnable ingestion example
-  - `live_dashboard.py`: streamlit dashboard for interpretation
+  - `dashboard_app/app.py`: modular streamlit dashboard for interpretation
 
 ## Design principles (current stage)
 - Start simple, with explicit code paths.

@@ -35,8 +35,8 @@ class Settings:
     IBKR_HOST: str = os.getenv('IBKR_HOST', '127.0.0.1')
     
     # Puerto de conexión
-    # 4001 = Paper Trading (cuenta demo/simulación)
-    # 4002 = Live Trading (cuenta real)
+    # 4002 = Paper Trading (cuenta demo/simulación)
+    # 4001 = Live Trading (cuenta real)
     IBKR_PORT: int = int(os.getenv('IBKR_PORT', '4001'))
     
     # Client ID único para esta conexión

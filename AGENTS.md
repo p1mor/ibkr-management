@@ -26,6 +26,7 @@ Keep each phase minimal before moving to the next one.
 
 ## Source of truth
 - Architecture: `docs/architecture/overview.md`
+- API scope and official IBKR sources: `README.md` (section `API Scope (Important)`)
 - Active specs: `specs/`
 - Runtime config: `.env`
 
@@ -36,7 +37,7 @@ If docs and code differ, code is the current behavior and docs must be updated.
 - `core/`: connection, orderbook, validation, processing
 - `storage/`: parquet persistence
 - `utils/`: logging and shared helpers
-- `examples/`: runnable demos (`basic_connection.py`, `live_dashboard.py`)
+- `examples/`: runnable demos (`basic_connection.py`, `dashboard_app/app.py`)
 - `tests/`: smoke and unit checks
 - `specs/`: feature-level implementation specs
 
@@ -59,7 +60,7 @@ If docs and code differ, code is the current behavior and docs must be updated.
 - Install deps: `pip install -r requirements.txt`
 - Verify setup: `python verify_setup.py`
 - Run capture example: `python examples/basic_connection.py`
-- Run dashboard: `streamlit run examples/live_dashboard.py`
+- Run dashboard: `streamlit run examples/dashboard_app/app.py`
 - Static checks: `python -m compileall config core storage utils examples verify_setup.py`
 - Tests: `python -m unittest discover -s tests -p "test_*.py"`
 
