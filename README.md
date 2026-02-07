@@ -17,6 +17,18 @@
 
 Este sistema captura datos de **ultra-alta frecuencia** (tick-by-tick y order book completo) desde Interactive Brokers (IBKR) para instrumentos futuros, específicamente diseñado para el **E-mini S&P 500 (ES)** del CME.
 
+### Contexto del Proyecto
+- Este repositorio es un primer acercamiento experimental para trabajar con la API de IBKR en análisis de activos.
+- Flujo de colaboración actual:
+  - Owner del repositorio: Camilo.
+  - Contribución activa: Jaime, trabajando en ramas para mantener `main` estable.
+- La operación experimental usa normalmente una cuenta/datos de Jaime, pero el diseño debe mantenerse modular para soportar usuarios distintos en fases futuras.
+
+### Evolución por Fases (Simple y Escalable)
+1. **Fase actual**: captura de datos y visualización/interpetación básica.
+2. **Siguiente fase**: herramientas de análisis y señales potenciales de compra/venta.
+3. **Fase objetivo**: framework/bot para automatizar ejecución de órdenes con controles.
+
 ### ¿Qué capturamos?
 - **Trades individuales**: Cada transacción ejecutada en el mercado
 - **Order Book (Depth of Market)**: Los 10 mejores niveles de bid/ask en tiempo real
