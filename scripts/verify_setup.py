@@ -202,7 +202,7 @@ def main() -> int:
         print("\n⚠️  Por favor corrige los errores antes de continuar")
         print("\nRecursos:")
         print("  - README.md - Documentación canónica")
-        print("  - START_HERE.md - Onboarding rápido")
+        print("  - AGENTS.md - Reglas de trabajo y comandos")
 
     print("\n" + "=" * 70)
     return 0 if all_passed else 1
