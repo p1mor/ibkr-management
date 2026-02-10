@@ -5,25 +5,26 @@ Este script demuestra cómo conectarse a Interactive Brokers Gateway,
 validar un contrato y recibir tus primeros ticks de mercado.
 
 EDUCATIVO: Empieza aquí para entender el flujo básico de conexión.
-Este ejemplo es simplificado - no guarda datos, solo imprime a consola.
+Este ejemplo valida contrato, captura ticks/depth y persiste en Parquet.
 """
 
+from pathlib import Path
 import time
 import sys
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
-from ibapi.contract import Contract
 
-# Si ejecutas desde ibkr_management/, importa así:
-sys.path.insert(0, '.')
-from config import Settings, ContractBuilder
-from core import OrderBook
-from storage import ParquetWriter
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-# Si ejecutas desde ibkr_management/examples/, importa así:
-# sys.path.insert(0, '..')
-# from config import Settings, ContractBuilder
-from utils.logging_config import setup_logging, get_logger
+from ibkr_management.config import ContractBuilder, Settings
+from ibkr_management.core import OrderBook
+from ibkr_management.storage import ParquetWriter
+from ibkr_management.utils import get_logger, setup_logging
 
 # Configurar logging
 setup_logging()
@@ -145,6 +146,7 @@ class SimpleIBKRApp(EWrapper, EClient):
             )
             
             logger.info("✓ Subscripción activa - esperando datos...")
+            logger.info("Nota: en fin de semana/fuera de horario puede no haber ticks aunque la conexión esté OK.")
         else:
             logger.error("[ERROR] No se pudo validar el contrato")
             self.disconnect()
@@ -302,7 +304,7 @@ def main():
     # Mostrar configuración
     print(f"\nConexión:")
     print(f"  Host:     {Settings.IBKR_HOST}")
-    print(f"  Puerto:   {Settings.IBKR_PORT}")  # 4001 para paper/simulación, 4002 para live
+    print(f"  Puerto:   {Settings.IBKR_PORT}")  # Paper=4002, Live=4001 (IB Gateway por defecto)
     print(f"  ClientID: {Settings.IBKR_CLIENT_ID}")
     print(f"\nContrato:")
     print(f"  Símbolo:  {Settings.IBKR_SYMBOL}")
@@ -339,7 +341,7 @@ def main():
             logger.error("✗ No se pudo conectar a IB Gateway")
             logger.error("\nVerifica que:")
             logger.error("  1. IB Gateway esté abierto y logueado")
-            logger.error("  2. Puerto correcto (4001 o 4002)")
+            logger.error("  2. Puerto correcto (IB Gateway: 4002 paper, 4001 live)")
             logger.error("  3. API Settings estén habilitados en Gateway")
             return
         
